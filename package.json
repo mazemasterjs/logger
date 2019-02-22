@@ -2,7 +2,7 @@
     "name": "@mazemasterjs/logger",
     "version": "1.0.1",
     "description": "Logging module created for MazeMasterJS",
-    "main": "./bin/Logger.js",
+    "main": "Logger.js",
     "scripts": {
         "test": "mocha",
         "coverage": "nyc mocha",
