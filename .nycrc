@@ -1,0 +1,16 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "sourceMap": "true",
+  "produce-source-map": "true",
+  "exclude": [
+      "bin/**/*",
+      "node_modules/**/*",
+      "test/**/*", 
+      "coverage/**/*"
+  ],
+  "all": true,
+  "reporter": [
+    "lcov",
+    "text"
+  ]
+}
