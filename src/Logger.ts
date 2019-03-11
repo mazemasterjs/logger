@@ -27,7 +27,7 @@ export class Logger {
     private static instance: Logger;
 
     private logLevel: LOG_LEVELS = LOG_LEVELS.INFO;
-    private colorDisabled: boolean = process.env.NODE_ENV == 'production' ? true : false;
+    private colorDisabled: boolean = false;
 
     // must use getInstance()
     private constructor() {}
@@ -36,6 +36,9 @@ export class Logger {
     static getInstance() {
         if (!Logger.instance) {
             Logger.instance = new Logger();
+            if (process.env.NODE_ENV == 'production') {
+                Logger.instance.ColorDisabled = true;
+            }
         }
         return Logger.instance;
     }
