@@ -27,6 +27,7 @@ export class Logger {
     private static instance: Logger;
 
     private logLevel: LOG_LEVELS = LOG_LEVELS.INFO;
+    private colorDisabled: boolean = process.env.NODE_ENV == 'production' ? true : false;
 
     // must use getInstance()
     private constructor() {}
@@ -48,8 +49,26 @@ export class Logger {
         console.log('%s : %s : %s : %s : Log Level set to %s', getTimeStamp(), 'N/A', fileName(__filename), method, LOG_LEVELS[this.logLevel]);
     }
 
+    /**
+     * Returns the current logging level as one of the values in LOG_LEVELS
+     */
     public get LogLevel(): LOG_LEVELS {
         return this.logLevel;
+    }
+
+    /**
+     * Gets the colorDisabled option value
+     */
+    public get ColorDisabled(): boolean {
+        return this.colorDisabled;
+    }
+
+    /**
+     * Set the colorDisabled option to the given boolean
+     * @param val - true if colors in log lines should be disabled
+     */
+    public set ColorDisabled(val: boolean) {
+        this.colorDisabled = val;
     }
 
     /**
@@ -63,13 +82,13 @@ export class Logger {
         if (this.logLevel >= LOG_LEVELS.DEBUG) {
             console.log(
                 '%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s',
-                COLORS.BLUE,
+                this.colorDisabled ? '' : COLORS.BLUE,
                 getTimeStamp(),
                 'DBG',
                 fileName(file),
                 method,
                 message,
-                COLORS.NONE
+                this.colorDisabled ? '' : COLORS.NONE
             );
         }
     }
@@ -85,14 +104,14 @@ export class Logger {
         if (this.logLevel >= LOG_LEVELS.ERROR) {
             console.log(
                 '%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s %s%s',
-                COLORS.RED,
+                this.colorDisabled ? '' : COLORS.RED,
                 getTimeStamp(),
                 'ERR',
                 fileName(file),
                 method,
                 message,
                 this.logLevel >= LOG_LEVELS.TRACE ? '\r\n' + error.stack : error.message,
-                COLORS.NONE
+                this.colorDisabled ? '' : COLORS.NONE
             );
         }
     }
@@ -108,13 +127,13 @@ export class Logger {
         if (this.logLevel >= LOG_LEVELS.WARN) {
             console.log(
                 '%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s',
-                COLORS.YELLOW,
+                this.colorDisabled ? '' : COLORS.YELLOW,
                 getTimeStamp(),
                 'WRN',
                 fileName(file),
                 method,
                 message,
-                COLORS.NONE
+                this.colorDisabled ? '' : COLORS.NONE
             );
         }
     }
@@ -130,13 +149,13 @@ export class Logger {
         if (this.logLevel >= LOG_LEVELS.INFO) {
             console.log(
                 '%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s',
-                COLORS.NONE,
+                this.colorDisabled ? '' : COLORS.NONE,
                 getTimeStamp(),
                 'INF',
                 fileName(file),
                 method,
                 message,
-                COLORS.NONE
+                this.colorDisabled ? '' : COLORS.NONE
             );
         }
     }
@@ -152,13 +171,13 @@ export class Logger {
         if (this.logLevel >= LOG_LEVELS.TRACE) {
             console.log(
                 '%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s',
-                COLORS.MAGENTA,
+                this.colorDisabled ? '' : COLORS.MAGENTA,
                 getTimeStamp(),
                 'TRC',
                 fileName(file),
                 method,
                 message,
-                COLORS.NONE
+                this.colorDisabled ? '' : COLORS.NONE
             );
         }
     }
@@ -173,13 +192,13 @@ export class Logger {
     public force(file: string, method: string, message: string) {
         console.log(
             '%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s',
-            COLORS.BLUE,
+            this.colorDisabled ? '' : COLORS.BLUE,
             getTimeStamp(),
             'FRC',
             fileName(file),
             method,
             message,
-            COLORS.NONE
+            this.colorDisabled ? '' : COLORS.NONE
         );
     }
 
@@ -188,9 +207,9 @@ export class Logger {
      *
      * @return name:string, version: string
      */
-    public get PackageInfo(): { name: string; version: string } {
+    public get PackageInfo(): {name: string; version: string} {
         let data = JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8'));
-        return { name: data.name, version: data.version };
+        return {name: data.name, version: data.version};
     }
 }
 

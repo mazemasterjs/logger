@@ -3,77 +3,83 @@ import {Logger, LOG_LEVELS} from '../src/Logger';
 
 let log: Logger;
 
+// runs before all tests in this block
+before(function() {
+    log = Logger.getInstance();
+    log.LogLevel = LOG_LEVELS.INFO;
+    console.log('BEFORE');
+});
+
+// reset color before each test
+beforeEach(function() {
+    log.ColorDisabled = false;
+});
+
 // test cases
 describe('Logger Tests', () => {
-    it('Logger.getInstance() should not return null.', () => {
-        log = Logger.getInstance();
+    it(`Logger.getInstance() should not return null`, () => {
         expect(log).not.to.be.null;
     });
 
-    it(`log.LogLevel = INFO) should set log level to INFO.`, () => {
-        log.LogLevel = LOG_LEVELS.INFO;
-        expect(log.LogLevel).to.equal(LOG_LEVELS.INFO);
-    });
-
-    it(`log.packageInfo() should read package.json and return app name and version.`, () => {
+    it(`log.packageInfo() should read package.json and return app name and version`, () => {
         let packageInfo = log.PackageInfo;
         log.info(__filename, 'Logger test', 'Application: ' + packageInfo.name + ', Version: ' + packageInfo.version);
         expect(packageInfo.name).to.equal('@mazemasterjs/logger');
         expect(packageInfo.version).not.to.be.empty;
     });
 
-    it(`log.info() with a fake __filename should not generate an error.`, () => {
-        log.info(__filename + '/fake', 'Logger test', 'Test message.');
-        expect(null);
-    });
-
-    it(`log.info() should not generate an error.`, () => {
+    it(`Info logging should work as expected`, () => {
+        log.LogLevel = LOG_LEVELS.INFO;
         log.info(__filename, 'Logger test', 'Test message.');
-        expect(null);
+        log.ColorDisabled = true;
+        log.info(__filename, 'Logger test', 'Test message.');
+        log.ColorDisabled = true;
+        expect(log.LogLevel).to.equal(LOG_LEVELS.INFO);
     });
 
-    it(`log.LogLevel = DEBUG) should set log level to DEBUG.`, () => {
+    it(`Debug logging should work as expected`, () => {
         log.LogLevel = LOG_LEVELS.DEBUG;
+        log.debug(__filename, 'Logger test', 'Test message.');
+        log.ColorDisabled = true;
+        log.debug(__filename, 'Logger test', 'Test message.');
         expect(log.LogLevel).to.equal(LOG_LEVELS.DEBUG);
     });
 
-    it(`log.debug() should not generate an error.`, () => {
-        log.debug(__filename, 'Logger test', 'Test message.');
-        expect(null);
-    });
-
-    it(`log.LogLevel = TRACE) should set log level to TRACE.`, () => {
-        log.LogLevel = LOG_LEVELS.TRACE;
-        expect(log.LogLevel).to.equal(LOG_LEVELS.TRACE);
-    });
-
-    it(`log.trace() should not generate an error.`, () => {
-        log.trace(__filename, 'Logger test', 'Test message.');
-        expect(null);
-    });
-
-    it(`log.LogLevel = WARN) should set log level to WARN.`, () => {
+    it(`Warn logging should work as expected`, () => {
         log.LogLevel = LOG_LEVELS.WARN;
+        log.warn(__filename, 'Logger test', 'Test message.');
+        log.ColorDisabled = true;
+        log.warn(__filename, 'Logger test', 'Test message.');
         expect(log.LogLevel).to.equal(LOG_LEVELS.WARN);
     });
 
-    it(`log.warn() should not generate an error.`, () => {
-        log.warn(__filename, 'Logger test', 'Test message.');
-        expect(null);
-    });
-
-    it(`log.LogLevel = ERROR) should set log level to ERROR.`, () => {
+    it(`Error logging should work as expected`, () => {
         log.LogLevel = LOG_LEVELS.ERROR;
+        log.error(__filename, 'Logger test', 'Test message -> ', new Error('Test Error'));
+        log.ColorDisabled = true;
+        log.error(__filename, 'Logger test', 'Test message -> ', new Error('Test Error'));
         expect(log.LogLevel).to.equal(LOG_LEVELS.ERROR);
     });
 
-    it(`log.error() should not generate an error.`, () => {
+    it(`Trace logging should work as expected`, () => {
+        log.LogLevel = LOG_LEVELS.TRACE;
+        log.trace(__filename, 'Logger test', 'Test message.');
         log.error(__filename, 'Logger test', 'Test message -> ', new Error('Test Error'));
+        log.ColorDisabled = true;
+        log.trace(__filename, 'Logger test', 'Test message.');
+        log.error(__filename, 'Logger test', 'Test message -> ', new Error('Test Error'));
+        expect(log.LogLevel).to.equal(LOG_LEVELS.TRACE);
+    });
+
+    it(`Force logging should work as expected`, () => {
+        log.force(__filename, 'Logger test', 'Test message.');
+        log.ColorDisabled = true;
+        log.force(__filename, 'Logger test', 'Test message.');
         expect(null);
     });
 
-    it(`log.force() should not generate an error.`, () => {
-        log.force(__filename, 'Logger test', 'Test message.');
-        expect(null);
+    it(`log.ColorsDisabled = true should set the colorsDisabled flag to true`, () => {
+        log.ColorDisabled = true;
+        expect(log.ColorDisabled).to.be.true;
     });
 });
