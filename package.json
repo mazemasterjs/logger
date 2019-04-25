@@ -1,6 +1,7 @@
 {
     "name": "@mazemasterjs/logger",
-    "version": "1.0.4",
+    "version": "1.0.5",
+    "bin": "./dist",
     "description": "Logging module created for MazeMasterJS",
     "main": "Logger.js",
     "scripts": {
