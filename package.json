@@ -1,14 +1,12 @@
 {
     "name": "@mazemasterjs/logger",
-    "version": "1.0.3",
+    "version": "1.0.6",
     "description": "Logging module created for MazeMasterJS",
     "main": "Logger.js",
     "scripts": {
         "test": "mocha",
         "coverage": "nyc mocha",
         "sq": "sonar-scanner.bat",
-        "prepublishOnly": "publish.bat pre",
-        "postpublish": "publish.bat post",
         "start": "echo \"Error: project not runnable\" && exit 1"
     },
     "repository": {
@@ -17,7 +15,6 @@
     },
     "keywords": [
         "mazemasterjs",
-        "mazemaster",
         "logger"
     ],
     "author": "James Dean (kreebog@gmail.com)",
@@ -27,16 +24,16 @@
     },
     "homepage": "https://github.com/mazemasterjs/logger#readme",
     "devDependencies": {
-        "@istanbuljs/nyc-config-typescript": "^0.1.0",
+        "@istanbuljs/nyc-config-typescript": "^0.1.1",
         "@types/chai": "^4.1.7",
         "@types/mocha": "^5.2.6",
-        "@types/node": "^11.9.4",
+        "@types/node": "^11.13.7",
         "chai": "^4.2.0",
-        "mocha": "^6.0.1",
-        "nyc": "^13.3.0",
-        "source-map-support": "^0.5.10",
-        "ts-node": "^8.0.2",
-        "typescript": "^3.3.3333"
+        "mocha": "^6.1.4",
+        "nyc": "^14.1.0",
+        "source-map-support": "^0.5.12",
+        "ts-node": "^8.1.0",
+        "typescript": "^3.4.5"
     },
     "dependencies": {}
 }
