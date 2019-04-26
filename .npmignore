@@ -5,7 +5,9 @@
 
 # will only publish from the /dist folder
 test/
-src/
+
+# deliver src with package for webpack (hopefully)
+# src/
 
 # config / env files
 .env
