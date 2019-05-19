@@ -146,8 +146,14 @@ class Logger {
      * @return name:string, version: string
      */
     get PackageInfo() {
-        let data = JSON.parse(fs_1.default.readFileSync(path_1.default.resolve('package.json'), 'utf8'));
-        return { name: data.name, version: data.version };
+        /* istanbul ignore else */
+        if (fs_1.default && fs_1.default.readFileSync) {
+            let data = JSON.parse(fs_1.default.readFileSync(path_1.default.resolve('package.json'), 'utf8'));
+            return { name: data.name, version: data.version };
+        }
+        else {
+            return { name: 'CANNOT_READ_FILE', version: 'CANNOT_READ_FILE' };
+        }
     }
 }
 exports.Logger = Logger;
