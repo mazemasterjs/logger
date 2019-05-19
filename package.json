@@ -1,13 +1,13 @@
 {
     "name": "@mazemasterjs/logger",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "description": "Logging module created for MazeMasterJS",
     "main": "Logger.js",
     "types": "Logger.d.ts",
     "scripts": {
         "test": "mocha",
-        "coverage": "nyc mocha",
-        "sq": "sonar-scanner.bat",
+        "cover": "nyc mocha",
+        "scan": "sonar-scanner.bat",
         "start": "echo \"Error: project not runnable\" && exit 1"
     },
     "repository": {
