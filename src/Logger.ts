@@ -36,6 +36,8 @@ export class Logger {
     static getInstance() {
         if (!Logger.instance) {
             Logger.instance = new Logger();
+
+            // automatically disable color in production
             if (process.env.NODE_ENV == 'production') {
                 Logger.instance.ColorDisabled = true;
             }
