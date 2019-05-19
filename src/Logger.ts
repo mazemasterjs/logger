@@ -211,8 +211,13 @@ export class Logger {
      * @return name:string, version: string
      */
     public get PackageInfo(): {name: string; version: string} {
-        let data = JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8'));
-        return {name: data.name, version: data.version};
+        /* istanbul ignore else */
+        if (fs && fs.readFileSync) {
+            let data = JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8'));
+            return {name: data.name, version: data.version};
+        } else {
+            return {name: 'CANNOT_READ_FILE', version: 'CANNOT_READ_FILE'};
+        }
     }
 }
 
